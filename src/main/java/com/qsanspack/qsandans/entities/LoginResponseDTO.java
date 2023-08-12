@@ -1,5 +1,7 @@
 package com.qsanspack.qsandans.entities;
 
+import org.springframework.security.oauth2.jwt.Jwt;
+
 public class LoginResponseDTO {
     
 

@@ -17,19 +17,25 @@
 
           
 
-            <form th:action="@{/register}" method="GET" th:object="${user}">
-                <label for="email">Email:</label>
-                <input type="email" name="email">
+            <form th:action="@{/auth/registeruser}" method="post" th:object="${user}">
+
+               
+                
 
                 <label for="username" >User Name:</label>
-                <input type="text" name="username" th:classappend="${#fields.hasErrors('username') ? 'error':''}">
+                <input type="text" name="username" th:field="*{username}" th:classappend="${#fields.hasErrors('username') ? 'error':''}">
 
                 <div th:each="e : ${#fields.errors('username')}" th:text="${e}"></div>
 
-                
-
                 <label for="password">Password:</label>
-                <input type="password" name="password">
+                <input type="password" name="password" th:field="*{password}" >
+
+                <label for="profileimage" >Profile Picture:</label>
+                <input type="text" name="profileimage" th:field="*{profileimage}">
+
+
+                <label for="fullname" >Full Name:</label>
+                <input type="text" name="fullname" th:field="*{fullname}">
 
                 <input type="submit" value="submit">
             </form>

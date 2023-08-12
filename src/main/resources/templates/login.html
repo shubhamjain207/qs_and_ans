@@ -8,28 +8,28 @@
 </head>
 <body>
     
-    <div id="main_container"> 
+    <div id="main_container">
+        <div id="form_container">
 
-    <div id="form_container">
+          
 
+            <form th:action="@{/auth/login}" method="post" th:object="${user}">
+               
 
-        <form th:action="@{/login}" method="get",th:object="${user}">
+                <label for="username" >User Name:</label>
+                <input type="text" name="username" th:field="*{username}" th:classappend="${#fields.hasErrors('username') ? 'error':''}">
 
-            <label for="username">userNmae:</label>
-            <input type="name" name="username">
+                <div th:each="e : ${#fields.errors('username')}" th:text="${e}"></div>
 
-            <label for="password">Password:</label>
-            <input type="password" name="password">
+                
 
-            <div><input type="submit" value="Sign In"/></div>
+                <label for="password">Password:</label>
+                <input type="password" name="password" th:field="*{password}" >
 
-        </form>
-
+                <input type="submit" value="submit">
+            </form>
+        </div>
     </div>
-
-
-    </div>
-
 
 </body>
 </html>

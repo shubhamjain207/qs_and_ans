@@ -84,6 +84,13 @@ public class SecurityConfig {
                                         auth.requestMatchers("/auth/**").permitAll();
                                         auth.requestMatchers("/admin/**").hasRole("ADMIN");
                                         auth.requestMatchers("/users/**").hasAnyRole("ADMIN", "USER");
+                                        auth.requestMatchers("/user/register").permitAll();
+                                        auth.requestMatchers("/user/createprofilepage").permitAll();
+                                        auth.requestMatchers("/user/registerProcess").permitAll();
+                                        auth.requestMatchers("/user/home").permitAll();
+                                        auth.requestMatchers("/user/login").permitAll();
+                                        auth.requestMatchers("/user/profile").permitAll();
+                                        auth.requestMatchers("/styles/**").permitAll();
 
                                         auth.anyRequest().authenticated();
                                 });
@@ -95,7 +102,7 @@ public class SecurityConfig {
                 http
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-                                                
+                
                 return http.build();
 
         }

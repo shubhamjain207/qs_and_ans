@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.qsanspack.qsandans.entities.Role;
 import com.qsanspack.qsandans.entities.User;
-import com.qsanspack.qsandans.repos.RoleRepo;
 import com.qsanspack.qsandans.repos.UserRepo;
 
 @SpringBootApplication
@@ -24,21 +23,24 @@ public class QsandansApplication {
 
 
 	@Bean
-	CommandLineRunner run(RoleRepo roleRepo,UserRepo userRepo,PasswordEncoder encoder){
+	CommandLineRunner run(UserRepo userRepo,PasswordEncoder encoder){
 
 		
 		return args->{
 
-			if(roleRepo.findByAuthority("ADMIN").isPresent()) return;
+			if(userRepo.findByUsername("admin").isPresent()) return;
 
-				Role adminRole = roleRepo.save(new Role("ADMIN"));
-				roleRepo.save(new Role("USER"));
+				// Role adminRole = userRepo.save(new Role("ADMIN"));
+				// roleRepo.save(new Role("USER"));
 
+				// Set<Role> roles = new HashSet<>();
 				Set<Role> roles = new HashSet<>();
 
-				roles.add(adminRole);
+				roles.add(new Role("ADMIN"));
 
-				User admin = new User(1,"admin",encoder.encode("password"),roles);
+				//roles.add(new User);
+
+				User admin = new User(0,"admin",encoder.encode("password"),"","Admin",roles);
 
 				userRepo.save(admin);
 		};

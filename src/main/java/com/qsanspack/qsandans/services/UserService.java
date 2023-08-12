@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.qsanspack.qsandans.entities.Role;
 import com.qsanspack.qsandans.entities.User;
 import com.qsanspack.qsandans.repos.UserRepo;
 

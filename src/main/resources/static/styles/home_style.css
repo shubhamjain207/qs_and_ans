@@ -1,0 +1,21 @@
+body{
+    background-color: #C7C788;
+}
+
+.navList{
+    height:20px;
+    width:100%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 50px;
+    gap: 60px;
+}
+
+.listItems{
+    font-family: 'Raleway', sans-serif;
+    font-size: 25px;
+    margin:20px;
+    list-style-type:none;
+}

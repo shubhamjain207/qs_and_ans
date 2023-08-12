@@ -34,9 +34,8 @@ public class User implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
+    @Column(name = "user_id",unique = true)
     private int id;
-
 
     @NotBlank(message = "please enter username")
     @Size(min=5,message="Size should be minimum 5")
@@ -45,14 +44,53 @@ public class User implements UserDetails{
 
     
     private String password;
+    private String profilepicture;
+    private String fullname;
+    
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name="user_role_junction",
-        joinColumns = {@JoinColumn(name="user_id")},
-        inverseJoinColumns={@JoinColumn(name="role_id")}
-    )
+    // @ManyToMany(fetch = FetchType.EAGER)
+    // @JoinTable(
+    //     name="user_role_junction",
+    //     joinColumns = {@JoinColumn(name="user_id")},
+    //     inverseJoinColumns={@JoinColumn(name="role_id")}
+    // )
     private Set<Role> authorities;
+
+
+    public int getId() {
+        return id;
+    }
+
+
+
+    public String getProfilepicture() {
+        return profilepicture;
+    }
+
+
+
+    public void setProfilepicture(String profilepicture) {
+        this.profilepicture = profilepicture;
+    }
+
+
+
+    public String getFullname() {
+        return fullname;
+    }
+
+
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+
+
+    public void setAuthorities(Set<Role> authorities) {
+        this.authorities = authorities;
+    }
+
 
 
     public User() {
@@ -62,16 +100,17 @@ public class User implements UserDetails{
 
 
 
-    public User(int id,
-            @NotBlank(message = "please enter username") @Size(min = 5, message = "Size should be minimum 5") String username, String password,Set<Role> authorities) {
+    public User(int user_id,
+            @NotBlank(message = "please enter username") @Size(min = 5, message = "Size should be minimum 5") String username, String password,String profilepicture,String fullname,Set<Role> authorities) {
 
         super();
 
-        this.id = id;
-        this.username = username;
-        
-        this.password = password;
-        this.authorities = authorities;
+       this.id = user_id;
+       this.username = username;
+       this.password = password;
+       this.profilepicture = profilepicture;
+       this.fullname = fullname;
+       this.authorities = authorities;
     }
 
 
@@ -103,7 +142,7 @@ public class User implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-       return (Collection<? extends GrantedAuthority>) this.authorities;
+       return this.authorities;
     }
 
 
