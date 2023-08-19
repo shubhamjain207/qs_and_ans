@@ -17,12 +17,9 @@ import com.qsanspack.qsandans.repos.UserRepo;
 public class UserService implements UserDetailsService {
 
 
-    @Autowired
-    private PasswordEncoder encoder;
 
-   
 
-    @Autowired
+   @Autowired
     private UserRepo repo;
 
 
@@ -30,8 +27,10 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
        
+        User user = repo.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("User name not found"));;
+
         
-        return repo.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("User name not found"));
+        return user;
         
 
     }

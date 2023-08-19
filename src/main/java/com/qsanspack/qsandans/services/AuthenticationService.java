@@ -4,10 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,8 @@ import com.qsanspack.qsandans.entities.RegistrationDTO;
 import com.qsanspack.qsandans.entities.Role;
 import com.qsanspack.qsandans.entities.User;
 import com.qsanspack.qsandans.repos.UserRepo;
+
+import io.jsonwebtoken.Jwts;
 
 
 
@@ -41,16 +47,26 @@ public class AuthenticationService {
     private PasswordEncoder encoder;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private AuthenticationManager manager;
 
     @Autowired
-    private TokenService tokenService;
+    private JwtHelper helper;
+
+    @Autowired
+    private UserDetailsService service;
+
+    // @Autowired
+    // private AuthenticationManager authenticationManager;
+
+    // @Autowired
+    // private TokenService tokenService;
+
+   
 
     public User registerUser(String username, String password,String profilepicture,String fullname) {
 
         String encodedPass = encoder.encode(password);
-       // User userRole = userRepo.findByAuthority("USER").get();
-
+      
         Set<Role> authorities = new HashSet<>();
 
         authorities.add(new Role("USER"));
@@ -59,28 +75,52 @@ public class AuthenticationService {
     }
 
     
-    public LoginResponseDTO loginUser(String username, String password) {
+    // public LoginResponseDTO loginUser(String username, String password) {
 
-        try {
+    //     try {
 
-                    Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password));
+    //                 Authentication auth = authenticationManager.authenticate(
+    //                 new UsernamePasswordAuthenticationToken(username, password));
 
-                    String token = tokenService.generateJwt(auth);
+    //                 String token = tokenService.generateJwt(auth);
                    
+    //                 LoginResponseDTO dto = new LoginResponseDTO(userRepo.findByUsername(username).get(), token);
 
-                    LoginResponseDTO dto = new LoginResponseDTO(userRepo.findByUsername(username).get(), token);
-
-                    return dto;
+    //                 return dto;
                     
 
-                     } catch (AuthenticationException e) {
-                        System.out.println(e);
-                        return new LoginResponseDTO(null, "");
-                    }
+    //                  } catch (Exception e) {
+    //                     System.out.println(e);
+    //                     return new LoginResponseDTO(null, "");
+    //                 }
 
-    }
+    // }
+
+     public ResponseEntity<JwtResponse> login(String username, String password) {
+
+        
+
+
+                 
+                    manager.authenticate(
+                        
+                    new UsernamePasswordAuthenticationToken(username, password));
+
+                    UserDetails userDetails = service.loadUserByUsername(username);
+
+
+                    String token = this.helper.generateToken(userDetails);
+                   
+                    JwtResponse response = JwtResponse.builder().JwtToken(token).username(userDetails.getUsername()).build();
+
+                    
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+
+                   
+
 
    
+
+}
 
 }

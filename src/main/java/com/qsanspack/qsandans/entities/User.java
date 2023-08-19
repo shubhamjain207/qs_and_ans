@@ -48,49 +48,8 @@ public class User implements UserDetails{
     private String fullname;
     
 
-    // @ManyToMany(fetch = FetchType.EAGER)
-    // @JoinTable(
-    //     name="user_role_junction",
-    //     joinColumns = {@JoinColumn(name="user_id")},
-    //     inverseJoinColumns={@JoinColumn(name="role_id")}
-    // )
+
     private Set<Role> authorities;
-
-
-    public int getId() {
-        return id;
-    }
-
-
-
-    public String getProfilepicture() {
-        return profilepicture;
-    }
-
-
-
-    public void setProfilepicture(String profilepicture) {
-        this.profilepicture = profilepicture;
-    }
-
-
-
-    public String getFullname() {
-        return fullname;
-    }
-
-
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-
-
-    public void setAuthorities(Set<Role> authorities) {
-        this.authorities = authorities;
-    }
-
 
 
     public User() {
@@ -114,61 +73,66 @@ public class User implements UserDetails{
     }
 
 
-  
-
-
-
-    @Override
-    public String toString() {
-        return "User [id=" + id + ", username=" + username  + ", password=" + password + "]";
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-       return this.authorities;
+    
+        return authorities;
     }
+
+
+
+    @Override
+    public String getPassword() {
+        
+        return password;
+    }
+
+
+
+    @Override
+    public String getUsername() {
+        
+       return username;
+    }
+
 
 
     @Override
     public boolean isAccountNonExpired() {
+       
         return true;
     }
+
 
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        
+       return true;
     }
+
 
 
     @Override
     public boolean isCredentialsNonExpired() {
+        
         return true;
     }
+
 
 
     @Override
     public boolean isEnabled() {
+        
         return true;
     }
-    
+
+
+  
+
+
+
     
     
 

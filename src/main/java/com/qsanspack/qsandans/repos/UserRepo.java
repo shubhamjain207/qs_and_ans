@@ -11,7 +11,7 @@ import com.qsanspack.qsandans.entities.User;
 public interface UserRepo extends JpaRepository<User,Integer>{
 
 
-    Optional<User> findByUsername(String username);
+    public Optional<User> findByUsername(String username);
    // Optional<User> findByAuthority(String authority);
 
     

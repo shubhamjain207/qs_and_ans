@@ -1,5 +1,7 @@
 package com.qsanspack.qsandans.controllers;
 
+import java.security.Principal;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.qsanspack.qsandans.entities.LoginResponseDTO;
 import com.qsanspack.qsandans.entities.RegistrationDTO;
 import com.qsanspack.qsandans.entities.User;
 
@@ -54,7 +57,8 @@ public class UserController {
         
        // UserDetails details = (UserDetails) auth.getPrincipal();
        
-        System.out.println("USER=====>" + auth.getName());
+      
+        System.out.println("USER=====>" + auth);
        
         return "home";
     }
@@ -72,6 +76,9 @@ public class UserController {
        
         return "profile";
     }
+
+  
+
 
 }
  

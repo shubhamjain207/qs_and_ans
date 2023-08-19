@@ -30,15 +30,10 @@ public class QsandansApplication {
 
 			if(userRepo.findByUsername("admin").isPresent()) return;
 
-				// Role adminRole = userRepo.save(new Role("ADMIN"));
-				// roleRepo.save(new Role("USER"));
-
-				// Set<Role> roles = new HashSet<>();
+			
 				Set<Role> roles = new HashSet<>();
 
 				roles.add(new Role("ADMIN"));
-
-				//roles.add(new User);
 
 				User admin = new User(0,"admin",encoder.encode("password"),"","Admin",roles);
 
