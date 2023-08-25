@@ -3,13 +3,13 @@ package com.qsanspack.qsandans.services;
 public class JwtRequest {
     
 
-    private String email;
+    private String username;
     private String password;
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String email) {
+        this.username = email;
     }
     public String getPassword() {
         return password;
@@ -20,12 +20,12 @@ public class JwtRequest {
     public JwtRequest() {
     }
     public JwtRequest(String email, String password) {
-        this.email = email;
+        this.username = email;
         this.password = password;
     }
     @Override
     public String toString() {
-        return "JwtRequest [email=" + email + ", password=" + password + "]";
+        return "JwtRequest [email=" + username + ", password=" + password + "]";
     }
 
     

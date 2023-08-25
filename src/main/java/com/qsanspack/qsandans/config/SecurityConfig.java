@@ -1,5 +1,6 @@
 package com.qsanspack.qsandans.config;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,9 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 // import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -44,6 +48,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import com.qsanspack.qsandans.entities.Role;
 import com.qsanspack.qsandans.entities.User;
 import com.qsanspack.qsandans.services.JwtAuthenticationEntryPoint;
 import com.qsanspack.qsandans.services.JwtAuthenticationFilter;
@@ -79,27 +84,39 @@ public class SecurityConfig {
           private UserDetailsService service;
 
         
+        // @Bean
+        // public DaoAuthenticationProvider daoAuthenticationProvider(){
+        //         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        //         provider.setUserDetailsService(service);
+        //         provider.setPasswordEncoder(encoder());
+        //         return provider;
+        // }
+
+
+        //   @Bean
+        //   public AuthenticationManager authenticationManager(AuthenticationConfiguration builder) throws Exception{
+        //         return builder.getAuthenticationManager();
+        //   }
+
         @Bean
-        public DaoAuthenticationProvider daoAuthenticationProvider(){
-                DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-                provider.setUserDetailsService(service);
-                provider.setPasswordEncoder(encoder());
-                return provider;
+        public AuthenticationManager manager(UserDetailsService service) {
+                DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider();
+                daoProvider.setUserDetailsService(service);
+                daoProvider.setPasswordEncoder(encoder());
+                return new ProviderManager(daoProvider);
         }
 
-
-          @Bean
-          public AuthenticationManager authenticationManager(AuthenticationConfiguration builder) throws Exception{
-                return builder.getAuthenticationManager();
-          }
-
-        // @Bean
-        // public AuthenticationManager manager(UserDetailsService service) {
-        //         DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider();
-        //         daoProvider.setUserDetailsService(service);
-        //         daoProvider.setPasswordEncoder(encoder());
-        //         return new ProviderManager(daoProvider);
-        // }
+        @Bean
+        public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
  
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -108,16 +125,16 @@ public class SecurityConfig {
                                 .cors(cors->cors.disable())
                                 .authorizeHttpRequests(auth -> {
                                         auth.requestMatchers("/auth/**").permitAll();
-                                        auth.requestMatchers("/admin/**").hasRole("ADMIN");
+                                        auth.requestMatchers("/admin/**").hasAnyAuthority("ADMIN");
                                         auth.requestMatchers("/users/**").hasAnyRole("ADMIN", "USER");
                                         auth.requestMatchers("/user/register").permitAll();
                                         auth.requestMatchers("/user/createprofilepage").permitAll();
                                         auth.requestMatchers("/user/registerProcess").permitAll();
-                                        auth.requestMatchers("/user/home").hasAnyRole("ADMIN", "USER");
+                                        auth.requestMatchers("/user/home").permitAll();
                                         auth.requestMatchers("/user/login").permitAll();
-                                        auth.requestMatchers("/user/profile").permitAll();
+                                        auth.requestMatchers("/user/profile").authenticated();
                                         auth.requestMatchers("/styles/**").permitAll();
-
+                                        auth.requestMatchers("/js/**").permitAll();
                                         auth.anyRequest().authenticated();
                                 })
 

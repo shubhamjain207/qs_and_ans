@@ -8,13 +8,16 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.qsanspack.qsandans.entities.Role;
 import com.qsanspack.qsandans.entities.User;
 import com.qsanspack.qsandans.repos.UserRepo;
 
 @SpringBootApplication
+@CrossOrigin
 public class QsandansApplication {
 
 	public static void main(String[] args) {
