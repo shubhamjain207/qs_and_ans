@@ -3,15 +3,14 @@ package com.qsanspack.qsandans;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.qsanspack.qsandans.entities.Question;
 import com.qsanspack.qsandans.entities.Role;
 import com.qsanspack.qsandans.entities.User;
 import com.qsanspack.qsandans.repos.UserRepo;
@@ -35,10 +34,13 @@ public class QsandansApplication {
 
 			
 				Set<Role> roles = new HashSet<>();
+				Set<String> questions = new HashSet<>();
 
 				roles.add(new Role("ADMIN"));
+				questions.add(null);
+				
 
-				User admin = new User(0,"admin",encoder.encode("password"),"","Admin",roles);
+				User admin = new User(0,"admin",encoder.encode("password"),"","Admin",roles,questions);
 
 				userRepo.save(admin);
 		};

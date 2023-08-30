@@ -1,59 +1,25 @@
 package com.qsanspack.qsandans.config;
 
 import java.util.Arrays;
-import java.util.HashSet;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-// import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetails;
-// import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-// import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
-// import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
-// import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-// import org.springframework.security.oauth2.jwt.JwtDecoder;
-// import org.springframework.security.oauth2.jwt.JwtEncoder;
-// import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-// import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
-// import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import com.nimbusds.jose.jwk.JWK;
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
-import com.nimbusds.jose.jwk.source.JWKSource;
-import com.nimbusds.jose.proc.SecurityContext;
-import com.qsanspack.qsandans.entities.Role;
-import com.qsanspack.qsandans.entities.User;
 import com.qsanspack.qsandans.services.JwtAuthenticationEntryPoint;
 import com.qsanspack.qsandans.services.JwtAuthenticationFilter;
-import com.qsanspack.qsandans.services.UserService;
-
 
 
 
@@ -61,42 +27,34 @@ import com.qsanspack.qsandans.services.UserService;
 @EnableWebSecurity
 public class SecurityConfig {
 
-
-
-          @Bean
-          public PasswordEncoder encoder() {
+        @Bean
+        public PasswordEncoder encoder() {
 
                 return new BCryptPasswordEncoder();
-          }
+        }
 
+        @Autowired
+        private JwtAuthenticationEntryPoint point;
 
+        @Autowired
+        private JwtAuthenticationFilter filter;
 
-         
+        @Autowired
+        private UserDetailsService service;
 
-
-          @Autowired
-          private JwtAuthenticationEntryPoint point;
-
-          @Autowired
-          private JwtAuthenticationFilter filter;
-
-          @Autowired
-          private UserDetailsService service;
-
-        
         // @Bean
         // public DaoAuthenticationProvider daoAuthenticationProvider(){
-        //         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        //         provider.setUserDetailsService(service);
-        //         provider.setPasswordEncoder(encoder());
-        //         return provider;
+        // DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        // provider.setUserDetailsService(service);
+        // provider.setPasswordEncoder(encoder());
+        // return provider;
         // }
 
-
-        //   @Bean
-        //   public AuthenticationManager authenticationManager(AuthenticationConfiguration builder) throws Exception{
-        //         return builder.getAuthenticationManager();
-        //   }
+        // @Bean
+        // public AuthenticationManager
+        // authenticationManager(AuthenticationConfiguration builder) throws Exception{
+        // return builder.getAuthenticationManager();
+        // }
 
         @Bean
         public AuthenticationManager manager(UserDetailsService service) {
@@ -108,21 +66,21 @@ public class SecurityConfig {
 
         @Bean
         public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
-        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
- 
+                CorsConfiguration configuration = new CorsConfiguration();
+                configuration.setAllowedOrigins(Arrays.asList("*"));
+                configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+                configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+                configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                source.registerCorsConfiguration("/**", configuration);
+                return source;
+        }
+
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http
                                 .csrf(csrf -> csrf.disable())
-                                .cors(cors->cors.disable())
+                                .cors(cors -> cors.disable())
                                 .authorizeHttpRequests(auth -> {
                                         auth.requestMatchers("/auth/**").permitAll();
                                         auth.requestMatchers("/admin/**").hasAnyAuthority("ADMIN");
@@ -132,49 +90,49 @@ public class SecurityConfig {
                                         auth.requestMatchers("/user/registerProcess").permitAll();
                                         auth.requestMatchers("/user/home").permitAll();
                                         auth.requestMatchers("/user/login").permitAll();
-                                        auth.requestMatchers("/user/profile").authenticated();
+                                        auth.requestMatchers("/user/profile").permitAll();
                                         auth.requestMatchers("/styles/**").permitAll();
                                         auth.requestMatchers("/js/**").permitAll();
                                         auth.anyRequest().authenticated();
                                 })
 
-                               .exceptionHandling(ex->ex.authenticationEntryPoint(point))
+                                .exceptionHandling(ex -> ex.authenticationEntryPoint(point))
 
-                        
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-                        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
-                
+                http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+
                 return http.build();
 
         }
 
         // @Bean
         // public JwtDecoder jwtDecoder() {
-        //         return NimbusJwtDecoder.withPublicKey(keys.getPublicKey()).build();
+        // return NimbusJwtDecoder.withPublicKey(keys.getPublicKey()).build();
         // }
 
         // @Bean
         // public JwtEncoder jwtEncoder() {
-        //         JWK jwk = new RSAKey.Builder(keys.getPublicKey()).privateKey(keys.getPrivateKey()).build();
-        //         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
-        //         return new NimbusJwtEncoder(jwks);
+        // JWK jwk = new
+        // RSAKey.Builder(keys.getPublicKey()).privateKey(keys.getPrivateKey()).build();
+        // JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
+        // return new NimbusJwtEncoder(jwks);
         // }
 
         // @Bean
         // public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        //         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        //         jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("roles");
-        //         jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
+        // JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new
+        // JwtGrantedAuthoritiesConverter();
+        // jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("roles");
+        // jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
 
-        //         JwtAuthenticationConverter jwtAuthenticationConverter1 = new JwtAuthenticationConverter();
-        //         jwtAuthenticationConverter1.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
+        // JwtAuthenticationConverter jwtAuthenticationConverter1 = new
+        // JwtAuthenticationConverter();
+        // jwtAuthenticationConverter1.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
 
-        //         return jwtAuthenticationConverter1;
+        // return jwtAuthenticationConverter1;
 
         // }
-
-       
 
 }

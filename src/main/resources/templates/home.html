@@ -13,22 +13,52 @@
 </head>
 <body>
 
+    <p id="token" th:text="${token}"></p>
+
+
     <div id="mainContainer">
 
         <div id="navbar">
 
             <ul class="navList">
-                <li class="listItems"><a href="#">Home</a></li>
-                <li class="listItems"><a href="#">Profile</a></li>
+                <li class="listItems"> <button id="displayHome" type = "button">Home</li>
+                <li class="listItems"> <button id="displayProfile" type = "button">Profile</li>
             </ul>
 
+        </div>
+
+        <div id="QsList">
+
+                
+
+
+
+        </div>
+
+        <div id="createQs">
+            <form>
+
+                <label for="qsInput">
+                <input type="text" id="qsInput" name="qsInput"></input>
+
+                <button id="postQs1" type="button" name="postQs1">Post
+
+            </form>
+        </div>
+          
+        <div>
+
+            <button id="postQs" type="button" name="postQs">
+            Post Qs.
+        
+
+           
         </div>
 
     </div>
     
     
-
-    
+ <script type="text/javascript" th:src="@{/js/home_user.js}"></script>
 
 
 

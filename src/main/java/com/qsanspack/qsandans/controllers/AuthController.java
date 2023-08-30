@@ -1,50 +1,101 @@
 package com.qsanspack.qsandans.controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.qsanspack.qsandans.entities.RegistrationDTO;
+import com.qsanspack.qsandans.entities.Question;
 import com.qsanspack.qsandans.entities.User;
-
 import com.qsanspack.qsandans.services.AuthenticationService;
-
+import com.qsanspack.qsandans.services.JwtHelper;
 import com.qsanspack.qsandans.services.JwtResponse;
+import com.qsanspack.qsandans.services.UserService;
 
-@RestController
-@RequestMapping("/auth")
-@CrossOrigin(origins = "*")
-public class AuthController {
+    @RestController
+    @RequestMapping("/auth")
+    @CrossOrigin(origins = "*")
+    public class AuthController {
 
     @Autowired
     private AuthenticationService service;
 
-    @PostMapping("/registeruser")
+     @Autowired
+    private UserService userService;
+
+
+    @Autowired
+    JwtHelper helper;
+
+
+    @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody Map<String, String> requestData) {
         
+       ResponseEntity<User> user1 = service.registerUser(requestData.get("username"), requestData.get("password"),requestData.get("profileimage"), requestData.get("fullname"));
+       return user1 ;
 
-       ResponseEntity<User> user1 = service.registerUser(requestData.get("username"), requestData.get("password"),requestData.get("profileImage"), requestData.get("fullName"));
-
-       //System.out.println(requestData);
-         return user1 ;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<JwtResponse> loginUser(@RequestBody Map<String, String> requestData) {
+    @GetMapping("/login")
+    public ResponseEntity<JwtResponse> loginUser(@RequestParam String username,@RequestParam String password) {
 
-        ResponseEntity<JwtResponse> user = service.login(requestData.get("username"), requestData.get("password"));
+        ResponseEntity<JwtResponse> user = service.login(username, password);
         return user;
 
     }
+
+    
+    @GetMapping("/profile")
+    public User profile(@AuthenticationPrincipal User details) {
+       
+            return details;
+        
+       
+    }
+
+    @GetMapping("/home")
+    public User home(@AuthenticationPrincipal User details) {
+       
+            return details;
+        
+    }
+
+    @GetMapping("/setQs")
+    public User setQs(@AuthenticationPrincipal User details) {
+
+            
+             User user = userService.setQs(details.getUsername(), "fdsafasd");
+             return user;
+        
+       
+    }
+
+    @GetMapping("/getAllQs")
+    public List getAllQs(@AuthenticationPrincipal User details) {
+
+            
+            //  User user = userService.setQs(details.getUsername(), "fdsafasd");
+            //  return user;
+
+           // System.out.println(userService.getAllQs(details.getUsername()));
+        
+            return userService.getAllQs(details.getUsername());
+       
+    }
+
 
 }

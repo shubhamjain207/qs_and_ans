@@ -38,11 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
          String requestHeader = request.getHeader("Authorization");
 
-        // String requestHeader = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzaHViaGFtNjE5IiwiaWF0IjoxNjkyNTYyNjY0LCJleHAiOjE2OTI1ODA2NjR9.tR1vUEzmDTT1FjATXFOG4PMCgSqNdub2HwhA_Jc20zYUM6R499K4L9c6-ymAGiIdmXl87Hbw6BJkljQqhd8B5w";
-        
-        //((HttpServletResponse) request).addHeader("Authorization", authorizationHeader);
-
-        //String requestHeader = request.getHeader("Authorization");
+       
        
         System.out.println("------------------>Correct Header Value !! " + requestHeader);
 
@@ -83,7 +79,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
 
         
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() != null) {
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
 
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
@@ -103,7 +99,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
 
         }
-
+            
         filterChain.doFilter(request, response);
     
 }

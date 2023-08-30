@@ -13,16 +13,28 @@
 <body>
 
     
-    <form th:action="@{/auth/profile}" method="post">
+    
 
         
-        <input type="text"></input>
+        <div id="main_container">
+
+                 <p id="token" th:text="${token}"></p>
+
+            
+                <p id = "username" th:text="${username}"></p>
+                <p id = "fullname" th:text="${fullname}"></p>
+                
+              
+             
+               
+                
+
+        </div>
         
+   
+
+    <script type="text/javascript" th:src="@{/js/profile_user.js}"></script>
 
 
-       
-
-        <input type="submit" value="submit">
-    </form>
 </body>
 </html>

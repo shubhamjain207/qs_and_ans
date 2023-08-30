@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.qsanspack.qsandans.entities.Question;
 import com.qsanspack.qsandans.entities.RegistrationDTO;
 import com.qsanspack.qsandans.entities.Role;
 import com.qsanspack.qsandans.entities.User;
@@ -39,19 +41,19 @@ public class AuthenticationService {
     private UserDetailsService service;
 
 
-
-   
-
+    
     public ResponseEntity<User> registerUser(String username, String password,String profilepicture,String fullname) {
 
         String encodedPass = encoder.encode(password);
       
         Set<Role> authorities = new HashSet<>();
+        Set<String> questions = new HashSet<>();
 
         authorities.add(new Role("USER"));
-
+        questions.add("");
         
-        User user = userRepo.save(new User(0,username, encodedPass,profilepicture,fullname, authorities));
+        User user = userRepo.save(new User(0,username, encodedPass,profilepicture,fullname, authorities,questions));
+       
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "");

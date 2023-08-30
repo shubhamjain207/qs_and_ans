@@ -19,3 +19,32 @@ body{
     margin:20px;
     list-style-type:none;
 }
+
+#token{
+    width: 100%;
+    display:none;
+}
+
+#postQs{
+    position:fixed;
+    bottom: 30px;
+    right:30px;
+    height: 50px;
+    width:50px;
+    border:2px solid black;
+    background-color: blueviolet;
+}
+
+#createQs{
+    position :fixed;
+    bottom: 5px;
+    display: flex;
+    height:200px;
+    width:100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row-reverse;
+    margin-top: 50px;
+    background-color: bisque;
+    border:2px solid black;
+}
