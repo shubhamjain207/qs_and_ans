@@ -1,11 +1,25 @@
 let displayHome = document.getElementById("displayHome");
 let displayProfile = document.getElementById("displayProfile");
-
-let postQsBtn = document.getElementById("postQs");
-
+let postQsBtn = document.getElementById("postQs1");
+let displayInputForQs = document.getElementById("displayInputForQs");
+let inputForQs = document.getElementById("inputForQs");
 let tokenEle = document.getElementById("token");
-
 let qsList = document.getElementById("QsList");
+
+
+
+displayInputForQs.addEventListener("click",function(){
+
+  if(inputForQs.style.display == "flex"){
+    inputForQs.style.display = "none";
+  }
+        
+  else{
+    inputForQs.style.display = "flex";
+  }
+
+
+})
 
 var xhttp1 = new XMLHttpRequest();
 
@@ -19,7 +33,17 @@ xhttp1.onload = () => {
     var responseData = JSON.parse(xhttp1.response);
 
     responseData.forEach((item) => {
-      qsList.innerHTML += `<p>${item["questioncontent"]}</p>`;
+
+
+      qsList.innerHTML += 
+      
+      `<div id="qsListItem">
+      <div class="qsListItemContent">
+             ${item["questioncontent"]}
+      </div>
+      </div>`;
+    
+    
     });
   }
 };
@@ -54,24 +78,39 @@ displayProfile.addEventListener("click", function () {
   };
 });
 
-postQsBtn.addEventListener("click", function () {
-  let qsInput = document.getElementById("qsInput");
 
-  if (qsInput == "") {
+
+postQsBtn.addEventListener("click", function () {
+
+let qsInput = document.getElementById("qsInput");
+
+  if (qsInput.value == "") {
     return;
   }
 
+  var date = new Date();
+
+
+  var data = {
+
+    "content":qsInput.value,
+    "time":date.toString()
+     
+  }
+
+  var jsonData = JSON.stringify(data);
+
   var xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "/auth/setQs", true);
+  xhttp.open("POST", "/auth/setQs", true);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.setRequestHeader("Authorization", "Bearer " + tokenEle.innerText);
-  xhttp.send();
+  xhttp.send(jsonData);
 
   xhttp.onload = () => {
     if (xhttp.status === 200) {
       var responseData = JSON.parse(xhttp.response);
       // window.location.href = `/user/profile?token=${tokenEle.innerText}`;
-      console.log(responseData);
+      window.location.href = `/user/home?token=${tokenEle.innerText}`;
     }
   };
 });

@@ -34,13 +34,13 @@ public class QsandansApplication {
 
 			
 				Set<Role> roles = new HashSet<>();
-				Set<String> questions = new HashSet<>();
-
-				roles.add(new Role("ADMIN"));
-				questions.add(null);
 				
 
-				User admin = new User(0,"admin",encoder.encode("password"),"","Admin",roles,questions);
+				roles.add(new Role("ADMIN"));
+				
+				
+
+				User admin = new User(0,"admin",encoder.encode("password"),"","Admin",roles);
 
 				userRepo.save(admin);
 		};

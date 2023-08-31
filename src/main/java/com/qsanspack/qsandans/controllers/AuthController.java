@@ -1,5 +1,6 @@
 package com.qsanspack.qsandans.controllers;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -74,11 +75,11 @@ import com.qsanspack.qsandans.services.UserService;
         
     }
 
-    @GetMapping("/setQs")
-    public User setQs(@AuthenticationPrincipal User details) {
+    @PostMapping("/setQs")
+    public User setQs(@AuthenticationPrincipal User details,@RequestBody Map<String, String> requestData) {
 
             
-             User user = userService.setQs(details.getUsername(), "fdsafasd");
+             User user = userService.setQs(details.getUsername(), requestData.get("content"),requestData.get("time"),details.getUsername());
              return user;
         
        
@@ -86,14 +87,13 @@ import com.qsanspack.qsandans.services.UserService;
 
     @GetMapping("/getAllQs")
     public List getAllQs(@AuthenticationPrincipal User details) {
+           
+        List list = userService.getAllQs(details.getUsername());
 
-            
-            //  User user = userService.setQs(details.getUsername(), "fdsafasd");
-            //  return user;
 
-           // System.out.println(userService.getAllQs(details.getUsername()));
-        
-            return userService.getAllQs(details.getUsername());
+        Collections.reverse(list);
+
+            return list;
        
     }
 

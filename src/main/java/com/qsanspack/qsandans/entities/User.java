@@ -40,7 +40,7 @@ public class User implements UserDetails {
     
 
     private Set<Role> authorities;
-    private Set<String> questions;
+    
 
     public User() {
         super();
@@ -49,7 +49,7 @@ public class User implements UserDetails {
 
     public User(int user_id,
             @NotBlank(message = "please enter username") @Size(min = 5, message = "Size should be minimum 5") String username,
-            String password, String profilepicture, String fullname, Set<Role> authorities, Set<String> questions) {
+            String password, String profilepicture, String fullname, Set<Role> authorities) {
 
         super();
 
@@ -59,7 +59,7 @@ public class User implements UserDetails {
         this.profilepicture = profilepicture;
         this.fullname = fullname;
         this.authorities = authorities;
-        this.questions = questions;
+       
     }
 
     @Override
@@ -78,20 +78,6 @@ public class User implements UserDetails {
     public String getUsername() {
 
         return username;
-    }
-
-   
-    public Set<String> getQuestions() {
-
-        return questions;
-    }
-
-    public void setQs(String qs){
-        if(questions == null){
-            questions = new HashSet<>();
-        }
-
-        questions.add(qs);
     }
 
     

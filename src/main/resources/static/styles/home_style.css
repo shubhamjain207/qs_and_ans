@@ -1,5 +1,5 @@
 body{
-    background-color: #C7C788;
+    background-color: rgb(249, 249, 119);
 }
 
 .navList{
@@ -11,6 +11,18 @@ body{
     flex-direction: row;
     margin-top: 50px;
     gap: 60px;
+}
+
+#mainContainer{
+
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+   
+
 }
 
 .listItems{
@@ -25,20 +37,22 @@ body{
     display:none;
 }
 
-#postQs{
+#displayInputForQs{
     position:fixed;
     bottom: 30px;
     right:30px;
+    color: white;
     height: 50px;
-    width:50px;
+    width:80px;
     border:2px solid black;
-    background-color: blueviolet;
+    background-color: rgb(3, 98, 3);
 }
 
-#createQs{
+#inputForQs{
+    
     position :fixed;
     bottom: 5px;
-    display: flex;
+    display: none;
     height:200px;
     width:100%;
     justify-content: center;
@@ -48,3 +62,36 @@ body{
     background-color: bisque;
     border:2px solid black;
 }
+
+#QsList{
+
+    flex-direction: column;
+    display: flex;
+    font-size: 20px;
+    margin-top: 30px;
+    justify-content: center;
+    align-items: center;
+    padding:100px;
+    border:2px solid rgba(0, 0, 0, 0.275);
+    width: 30%;
+
+
+
+}
+
+#qsListItem{
+    border:3px solid rgba(0, 0, 0, 0.268);
+	height:auto;
+	width:100%;
+	padding:20px;
+	margin:20px;
+	background-color:rgba(145, 243, 145, 0.371);
+}
+
+.qsListItemContent{
+    word-wrap: break-word;
+	width:100%;
+	font-family:"Gill Sans";
+	font-size:24px;
+}
+

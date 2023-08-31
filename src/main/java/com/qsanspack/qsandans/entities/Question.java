@@ -20,14 +20,37 @@ public class Question{
     private int id;
 
     private String questioncontent;
+    private String questionTime;
+    public String getQuestionTime() {
+        return questionTime;
+    }
+
+    public void setQuestionTime(String questionTime) {
+        this.questionTime = questionTime;
+    }
+
+    public String getQuestionUser() {
+        return questionUser;
+    }
+
+    public void setQuestionUser(String questionUser) {
+        this.questionUser = questionUser;
+    }
+
+    private String questionUser;
+    
 
     public int getId() {
         return id;
     }
 
-    public Question(int id, String questioncontent) {
+    
+
+    public Question(int id, String questioncontent, String questionTime, String questionUser) {
         this.id = id;
         this.questioncontent = questioncontent;
+        this.questionTime = questionTime;
+        this.questionUser = questionUser;
     }
 
     public void setId(int id) {

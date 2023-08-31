@@ -38,17 +38,15 @@ public class UserService implements UserDetailsService {
     }
 
    
-    public User setQs(String username,String qs){
+    public User setQs(String username,String qs,String qsTime,String qsUser){
        
         User user= repo.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("User name not found"));
 
         if(user!=null){
-            user.setQs(qs);
+            
             repo.save(user);
-            repo1.save(new Question(0, qs));
+            repo1.save(new Question(0, qs,qsTime,qsUser));
         }
-
-
 
 
         return user;

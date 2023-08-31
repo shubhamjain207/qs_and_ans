@@ -52,7 +52,7 @@ public class AuthenticationService {
         authorities.add(new Role("USER"));
         questions.add("");
         
-        User user = userRepo.save(new User(0,username, encodedPass,profilepicture,fullname, authorities,questions));
+        User user = userRepo.save(new User(0,username, encodedPass,profilepicture,fullname, authorities));
        
 
         HttpHeaders headers = new HttpHeaders();
