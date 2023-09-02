@@ -13,24 +13,31 @@
 <body>
 
     
+<div id="container">
+
+    <div id="main_container">
+
+        <p id="token" th:text="${token}"></p>
+
+   
+       <p id = "username" th:text="${username}"></p>
+       <p id = "fullname" th:text="${fullname}"></p>
+       
     
 
+</div>
+
+<div id="yourQsContainer">
+
+
+
+
+</div>
+
+</div>    
+
         
-        <div id="main_container">
-
-                 <p id="token" th:text="${token}"></p>
-
-            
-                <p id = "username" th:text="${username}"></p>
-                <p id = "fullname" th:text="${fullname}"></p>
-                
-              
-             
-               
-                
-
-        </div>
-        
+       
    
 
     <script type="text/javascript" th:src="@{/js/profile_user.js}"></script>

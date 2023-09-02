@@ -1,5 +1,5 @@
 body{
-    background-color: rgb(249, 249, 119);
+    background-color: white;
     height:100vh;
     width:100vw;
     display: flex;
@@ -9,6 +9,47 @@ body{
     
 }
 
+#container{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 60%;
+    margin: auto;
+    
+}
+
+
+#yourQsContainer{
+    flex-direction: column;
+    display: flex;
+    font-size: 20px;
+    margin: 30px auto; 
+    justify-content: center;
+    align-items: center;
+    padding:100px;
+    border:2px solid rgba(0, 0, 0, 0.275);
+    width: 30%;
+    border-radius: 10px;
+
+}
+
+#qsListItem{
+    border:3px solid rgba(0, 0, 0, 0.268);
+    border-radius: 10px;
+	height:auto;
+	width:100%;
+	padding:20px;
+	margin:20px;
+	background-color:rgba(145, 243, 145, 0.371);
+}
+
+.qsListItemContent{
+    word-wrap: break-word;
+	width:100%;
+	font-family:"Gill Sans";
+	font-size:24px;
+}
 
 
 
@@ -16,12 +57,13 @@ body{
     flex-direction: column;
     display: flex;
     font-size: 20px;
-    margin-top: 30px;
+    margin: 30px auto;
     justify-content: center;
     align-items: center;
     padding:100px;
-    border:2px solid black;
-    width: auto;
+    border:2px solid rgba(0, 0, 0, 0.268);
+    border-radius: 10px;
+    width: 20%;
 
 }
 
