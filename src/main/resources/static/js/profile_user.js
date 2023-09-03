@@ -10,6 +10,22 @@ let image = document.getElementById("image");
 
 let yourQsContainer = document.getElementById("yourQsContainer");
 
+let displayProfile = document.getElementsByClassName("displayProfile")[0];
+let displayHome = document.getElementsByClassName("displayHome")[0];
+
+
+
+const currentPageUrl = window.location.href;
+
+
+if (currentPageUrl.includes('user/profile')) {
+  displayProfile.classList.add('active-link');
+}
+
+else if (currentPageUrl.includes('user/home')) {
+  displayHome.classList.add('active-link');
+} 
+
 
 
 var xhttp1 = new XMLHttpRequest();
@@ -33,12 +49,45 @@ xhttp1.onload = () => {
       <div class="qsListItemContent">
              ${item["questioncontent"]}
       </div>
+      <div id="qsListItemDetails">
+             ${item["questionTime"].toString().substring(0,25)}
+      </div>
       </div>`;
     
     
     });
   }
 };
+
+displayHome.addEventListener("click", function () {
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "/auth/home", true);
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.setRequestHeader("Authorization", "Bearer " + tokenEle.innerText);
+  xhttp.send();
+
+  xhttp.onload = () => {
+    if (xhttp.status === 200) {
+      var responseData = JSON.parse(xhttp.response);
+      window.location.href = `/user/home?token=${tokenEle.innerText}`;
+    }
+  };
+});
+
+displayProfile.addEventListener("click", function () {
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "/auth/profile", true);
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.setRequestHeader("Authorization", "Bearer " + tokenEle.innerText);
+  xhttp.send();
+
+  xhttp.onload = () => {
+    if (xhttp.status === 200) {
+      var responseData = JSON.parse(xhttp.response);
+      window.location.href = `/user/profile?token=${tokenEle.innerText}`;
+    }
+  };
+});
 
 
 

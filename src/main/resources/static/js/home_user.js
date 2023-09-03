@@ -8,6 +8,22 @@ let qsList = document.getElementById("QsList");
 
 
 
+
+const currentPageUrl = window.location.href;
+
+
+if (currentPageUrl.includes('user/profile')) {
+  displayProfile.classList.add('active-link');
+}
+
+else if (currentPageUrl.includes('user/home')) {
+  displayHome.classList.add('active-link');
+} 
+
+
+
+
+
 displayInputForQs.addEventListener("click",function(){
 
   if(inputForQs.style.display == "flex"){
@@ -40,6 +56,10 @@ xhttp1.onload = () => {
       `<div id="qsListItem">
       <div class="qsListItemContent">
              ${item["questioncontent"]}
+      </div>
+      <div id="qsListItemDetails">
+             ${item["questionUser"]}<br>
+             ${item["questionTime"].toString().substring(0,25)}
       </div>
       </div>`;
     

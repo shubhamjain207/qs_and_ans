@@ -15,17 +15,24 @@
     
 <div id="container">
 
+    <div id="navbar">
+
+        <ul class="navList">
+            <li class="listItems"> <button class="displayHome active-link" type = "button">Home</li>
+            <li class="listItems"> <button class="displayProfile active-link" type = "button">Profile</li>
+        </ul>
+
+    </div>
+
     <div id="main_container">
 
-        <p id="token" th:text="${token}"></p>
+       <p id="token" th:text="${token}"></p>
 
-   
        <p id = "username" th:text="${username}"></p>
        <p id = "fullname" th:text="${fullname}"></p>
        
-    
 
-</div>
+    </div>
 
 <div id="yourQsContainer">
 

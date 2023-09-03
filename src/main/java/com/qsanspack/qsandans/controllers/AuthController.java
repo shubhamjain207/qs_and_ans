@@ -86,14 +86,14 @@ import com.qsanspack.qsandans.services.UserService;
     }
 
     @GetMapping("/getAllQs")
-    public List getAllQs(@AuthenticationPrincipal User details) {
+    public List<Question> getAllQs(@AuthenticationPrincipal User details) {
            
-        List list = userService.getAllQs(details.getUsername());
+        List<Question> list = userService.getAllQs(details.getUsername());
 
 
         Collections.reverse(list);
 
-            return list;
+        return list;
        
     }
 
